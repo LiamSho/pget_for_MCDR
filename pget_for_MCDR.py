@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#version v0.1.0
+#version v1.0.0
 import requests
 
 HelpMessage ='''------MCDR pget插件------
