@@ -6,6 +6,7 @@ HelpMessage ='''------MCDR pget插件------
 §7!!pget [url] -下载这个插件
 --------------------------------'''
 
+reload_msg=' [{"text":"§a请输入!!MCDR reload plugin或点击这条消息来重载插件§r","insertion":"!!MCDR reload plugin","clickEvent":{"action":"run_command","value":"!!MCDR reload plugin"}}]'
 
 def on_load(server, old):
         server.add_help_message('!!pget', '下载插件')
@@ -28,7 +29,7 @@ def on_info(server, info):
                             write.write(file.content)
                         if info.is_player:
                             server.tell(info.player, '§a下载成功!§r')
-                            server.execute('tellraw ' + info.player + ' [{"text":"§a请输入!!MCDR reload plugin或点击这条消息来重载插件§r","insertion":"!!MCDR reload plugin","clickEvent":{"action":"run_command","value":"!!MCDR reload plugin"}}]')
+                            server.execute('tellraw ' + info.player + reload_msg)
                         else:
                             print('下载成功！')
                             print('请手动输入!!MCDR reload plugin重载插件')
