@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-#version v1.1.0
+#version v1.1.1
 import requests
 
 HelpMessage ='''------MCDR pget插件------
-§7!!pget [url] -下载这个插件
+§7!!pget [url] -下载[url]插件
 --------------------------------'''
 
 reload_msg=' [{"text":"§a请输入!!MCDR reload plugin或点击这条消息来重载插件§r","insertion":"!!MCDR reload plugin","clickEvent":{"action":"run_command","value":"!!MCDR reload plugin"}}]'
