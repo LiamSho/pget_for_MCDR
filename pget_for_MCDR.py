@@ -26,8 +26,12 @@ def on_info(server, info):
                     if file.status_code == 200:
                         with open('./plugins/' + name[-1], 'wb') as write:
                             write.write(file.content)
-                        server.reply(info, '§a下载成功!§r')
-                        server.reply(info, '§a由于fallen大佬偷懒，无法自动重载插件\n§a请手动输入!!MCDR reload plugin重载插件§r')
+                        if info.is_player:
+                            server.tell(info.player, '§a下载成功!§r')
+                            server.execute('tellraw ' + info.player + ' [{"text":"§a请输入!!MCDR reload plugin或点击这条消息来重载插件§r","insertion":"!!MCDR reload plugin","clickEvent":{"action":"run_command","value":"!!MCDR reload plugin"}}]')
+                        else:
+                            print('下载成功！')
+                            print('请手动输入!!MCDR reload plugin重载插件')
                     else:
                         server.reply(info, '§c下载失败§r')
                 else:
