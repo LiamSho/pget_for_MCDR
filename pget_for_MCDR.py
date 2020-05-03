@@ -1,50 +1,64 @@
 # -*- coding: utf-8 -*-
-# v1.2.0
+# v1.3.0
 import requests
 import json
+from utils import constant
 
-HelpMessage ='''------MCDR pget插件------
+
+HelpMessage ="""------MCDR pget插件------
 §7!!pget [url] -下载这个插件
---------------------------------'''
+--------------------------------"""
 
 
 
 def on_load(server, old):
-        server.add_help_message('!!pget', '下载插件')
+    server.add_help_message("!!pget", "下载插件")
 
 
 def on_info(server, info):
-    content = info.content.rstrip(' ')
-    content = content.split(' ')
-    if content[0] == '!!pget':
+    content = info.content.rstrip(" ")
+    content = content.split(" ")
+    if content[0] == "!!pget":
         if server.get_permission_level(info) == 3:
             if len(content) == 1:
                 server.reply(info, HelpMessage)
             elif len(content) == 2:
                 download(server, info, content)
             else:
-                server.reply(info, '§c命令格式错误！请使用!!pget查看帮助§r')
+                server.reply(info, "§c命令格式错误！请使用!!pget查看帮助§r")
         else:
-            server.reply(info, '§c权限不足！§r')
+            server.reply(info, "§c权限不足！§r")
 
 
 def download(server, info, content):
-    name = content[1].split('/')
-    if name[-1].split('.')[-1] == 'py':
+    name = content[1].split("/")
+    if name[-1].split(".")[-1] == "py":
         file = requests.get(content[1])
         if file.status_code == 200:
-            with open('./plugins/' + name[-1], 'wb') as write:
+            with open("./plugins/" + name[-1], "wb") as write:
                 write.write(file.content)
-            if info.is_player:
-                server.tell(info.player, '§a下载成功!§r')
-                server.execute('tellraw ' + info.player + " " + reload_msg())
-            else:
-                print('下载成功！')
-                print('请手动输入!!MCDR reload plugin重载插件')
+            finish_download_msg(server, info)
         else:
-            server.reply(info, '§c下载失败§r')
+            server.reply(info, "§c下载失败§r")
     else:
-        server.reply(info, '§c您下载的不是python文件§r')
+        server.reply(info, "§c您下载的不是python文件§r")
+
+
+def finish_download_msg(server, info):
+    version = constant.VERSION.split("-")
+    version = version[0].split(".")
+    version = ".".join(version[0:2])
+    version = float(version)
+    if version >= 0.8:
+        server.refresh_changed_plugins()
+        server.reply(info, "§a已自动重载插件！§r")
+    else:
+        if info.is_player:
+            server.tell(info.player, "§a下载成功!§r")
+            server.execute("tellraw " + info.player + " " + reload_msg())
+        else:
+            print("下载成功！")
+            print("请手动输入!!MCDR reload plugin重载插件")
 
 
 def reload_msg():
