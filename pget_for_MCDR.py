@@ -37,14 +37,14 @@ def download(server, info, content):
         if file.status_code == 200:
             with open("./plugins/" + name[-1], "wb") as write:
                 write.write(file.content)
-            finish_download_msg(server, info)
+            finish_download_msg(server, info, name)
         else:
             server.reply(info, "§c下载失败§r")
     else:
         server.reply(info, "§c您下载的不是python文件§r")
 
 
-def finish_download_msg(server, info):
+def finish_download_msg(server, info, name):
     version = constant.VERSION.split("-")
     version = version[0].split(".")
     version = ".".join(version[0:2])
@@ -59,6 +59,10 @@ def finish_download_msg(server, info):
         else:
             print("下载成功！")
             print("请手动输入!!MCDR reload plugin重载插件")
+    if info.is_player:
+        server.logger.info("管理员" + info.player + "下载了插件" + name[-1])
+    else:
+        server.logger.info("有人通过控制台下载了插件" + name[-1])
 
 
 def reload_msg():
