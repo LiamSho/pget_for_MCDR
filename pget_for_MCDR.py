@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# v1.3.0
+# v1.4.0
 import requests
 import json
 from utils import constant
