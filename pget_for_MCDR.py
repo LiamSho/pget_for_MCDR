@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-# v1.4.0
+# v1.5.0
 import requests
 import json
-from utils import constant
 
 
 HelpMessage ="""------MCDR pget插件------
@@ -45,36 +44,10 @@ def download(server, info, content):
 
 
 def finish_download_msg(server, info, name):
-    version = constant.VERSION.split("-")
-    version = version[0].split(".")
-    version = ".".join(version[0:2])
-    version = float(version)
-    if version >= 0.8:
-        server.refresh_changed_plugins()
-        server.reply(info, "§a已自动重载插件！§r")
-    else:
-        if info.is_player:
-            server.tell(info.player, "§a下载成功!§r")
-            server.execute("tellraw " + info.player + " " + reload_msg())
-        else:
-            print("下载成功！")
-            print("请手动输入!!MCDR reload plugin重载插件")
+    server.refresh_changed_plugins()
+    server.reply(info, "§a下载成功!§r")
+    server.reply(info, "§a已自动重载插件！§r")
     if info.is_player:
         server.logger.info("管理员" + info.player + "下载了插件" + name[-1])
     else:
         server.logger.info("有人通过控制台下载了插件" + name[-1])
-
-
-def reload_msg():
-    return json.dumps(
-        [
-            {
-                "text": "§a请输入!!MCDR reload plugin或点击这条消息来重载插件§r",
-                "clickEvent":
-                    {
-                        "action": "run_command",
-                        "value": "!!MCDR reload plugin"
-                    }
-            }
-        ]
-    )
