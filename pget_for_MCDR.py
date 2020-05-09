@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# v1.5.0
+# v1.6.0
+
 import requests
-import json
 
 
 HelpMessage ="""------MCDR pget插件------
