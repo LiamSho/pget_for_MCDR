@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# v1.6.0
+# v1.7.0
 
 import requests
 
@@ -22,17 +22,18 @@ def on_info(server, info):
             if len(content) == 1:
                 server.reply(info, HelpMessage)
             elif len(content) == 2:
-                download(server, info, content)
+                link = content[1]
+                download(server, info, link)
             else:
                 server.reply(info, "§c命令格式错误！请使用!!pget查看帮助§r")
         else:
             server.reply(info, "§c权限不足！§r")
 
 
-def download(server, info, content):
-    name = content[1].split("/")
+def download(server, info, link):
+    name = link.split("/")
     if name[-1].split(".")[-1] == "py":
-        file = requests.get(content[1])
+        file = requests.get(link)
         if file.status_code == 200:
             with open("./plugins/" + name[-1], "wb") as write:
                 write.write(file.content)
