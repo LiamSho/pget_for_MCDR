@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# v1.7.0
+# v1.8.0
 
 import requests
 
@@ -18,7 +18,7 @@ def on_info(server, info):
     content = info.content.rstrip(" ")
     content = content.split(" ")
     if content[0] == "!!pget":
-        if server.get_permission_level(info) == 3:
+        if server.get_permission_level(info) >= 3:
             if len(content) == 1:
                 server.reply(info, HelpMessage)
             elif len(content) == 2:
@@ -33,7 +33,7 @@ def on_info(server, info):
 def download(server, info, link):
     name = link.split("/")
     if name[-1].split(".")[-1] == "py":
-        file = requests.get(link)
+        file = requests.get(url=link,verify=False)
         if file.status_code == 200:
             with open("./plugins/" + name[-1], "wb") as write:
                 write.write(file.content)
